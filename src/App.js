@@ -1,13 +1,18 @@
 import "./App.css";
 import { useEffect, useRef } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import Guitar from "./components/Guitar";
 import { OrbitControls, TransformControls } from "@react-three/drei";
 import { Controls, useControl } from "react-three-gui";
 
+//I would like to get the position of the guitar that is wrapped in the TransformControls component when it is dragged
+//when I try to console.log the guitar.current.position in a useFrame hook it does not update
+
 function Keen({ props }) {
   const orbit = useRef();
   const transform = useRef();
+  const guitar = useRef();
+
   const mode = useControl("mode", {
     type: "select",
     items: ["scale", "rotate", "translate"],
@@ -21,17 +26,19 @@ function Keen({ props }) {
       return () => controls.removeEventListener("dragging-changed", callback);
     }
   });
+
+  //not sure what to put in here to get the guitars position from the ref
+  useFrame(() => {
+    console.log("this function should return the guitars position");
+  });
+
   return (
     <>
-      <TransformControls
-        ref={transform}
-        onChange={(e) => {
-          console.log(e);
-        }}
-      >
+      <TransformControls ref={transform}>
         <Guitar
           scale={[0.5, 0.5, 0.5]}
           rotation={[0, Math.PI / 2, Math.PI / 2]}
+          ref={guitar}
         />
       </TransformControls>
       <OrbitControls ref={orbit} />
