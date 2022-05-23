@@ -23,8 +23,16 @@ function Keen({ props }) {
   });
   return (
     <>
-      <TransformControls ref={transform}>
-        <pointLight intensity={0.5} />
+      <TransformControls
+        ref={transform}
+        onChange={(e) => {
+          console.log(e);
+        }}
+      >
+        <Guitar
+          scale={[0.5, 0.5, 0.5]}
+          rotation={[0, Math.PI / 2, Math.PI / 2]}
+        />
       </TransformControls>
       <OrbitControls ref={orbit} />
     </>
@@ -36,10 +44,7 @@ function App() {
     <div className="canvas">
       <Canvas>
         <Keen />
-        <Guitar
-          scale={[0.5, 0.5, 0.5]}
-          rotation={[0, Math.PI / 2, Math.PI / 2]}
-        />
+        <ambientLight intensity={0.9} />
       </Canvas>
     </div>
   );
