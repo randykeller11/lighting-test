@@ -26,7 +26,7 @@ function Keen({ props }) {
     }
   });
 
-  //not sure what to put in here to get the guitars position from the ref
+  //not sure what to put in here to get the boxes position from the ref
   useFrame(() => {
     console.log(mesh.current.matrix);
   });
