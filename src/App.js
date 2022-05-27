@@ -1,9 +1,10 @@
 import "./App.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import Guitar from "./components/Guitar";
 import { OrbitControls, TransformControls } from "@react-three/drei";
 import { Controls, useControl } from "react-three-gui";
+import * as THREE from "three";
+import Guitar from "./components/Guitar";
 
 //I would like to get the position of the guitar that is wrapped in the TransformControls component when it is dragged
 //when I try to console.log the guitar.current.position in a useFrame hook it does not update
@@ -16,6 +17,9 @@ function Keen({ props }) {
     type: "select",
     items: ["scale", "rotate", "translate"],
   });
+
+  const [alert, setAlert] = useState(true);
+
   useEffect(() => {
     if (transform.current) {
       const controls = transform.current;
@@ -26,19 +30,19 @@ function Keen({ props }) {
     }
   });
 
-  //not sure what to put in here to get the boxes position from the ref
-  useFrame(() => {
-    console.log(mesh.current.matrix);
-  });
-
   return (
     <>
-      <TransformControls ref={transform}>
+      <TransformControls
+        ref={transform}
+        onMouseUp={() => {
+          console.log(mesh.current.getWorldPosition(new THREE.Vector3()));
+        }}
+      >
         <Guitar
           scale={[0.5, 0.5, 0.5]}
           rotation={[0, Math.PI / 2, Math.PI / 2]}
         />
-        <mesh ref={mesh}>
+        <mesh ref={mesh} visible={false}>
           <boxGeometry args={[1, 1, 1]} />
           <meshStandardMaterial color="orange" />
         </mesh>
