@@ -11,8 +11,7 @@ import { Controls, useControl } from "react-three-gui";
 function Keen({ props }) {
   const orbit = useRef();
   const transform = useRef();
-  const guitar = useRef();
-
+  const mesh = useRef();
   const mode = useControl("mode", {
     type: "select",
     items: ["scale", "rotate", "translate"],
@@ -29,7 +28,7 @@ function Keen({ props }) {
 
   //not sure what to put in here to get the guitars position from the ref
   useFrame(() => {
-    console.log("this function should return the guitars position");
+    console.log(mesh.current.matrix);
   });
 
   return (
@@ -38,8 +37,11 @@ function Keen({ props }) {
         <Guitar
           scale={[0.5, 0.5, 0.5]}
           rotation={[0, Math.PI / 2, Math.PI / 2]}
-          ref={guitar}
         />
+        <mesh ref={mesh}>
+          <boxGeometry args={[1, 1, 1]} />
+          <meshStandardMaterial color="orange" />
+        </mesh>
       </TransformControls>
       <OrbitControls ref={orbit} />
     </>
