@@ -35,17 +35,20 @@ function Keen({ props }) {
       <TransformControls
         ref={transform}
         onMouseUp={() => {
-          console.log(mesh.current.getWorldPosition(new THREE.Vector3()));
+          const transformPosition = mesh.current.getWorldPosition(
+            new THREE.Vector3()
+          );
+          console.log(transformPosition);
         }}
       >
-        <Guitar
-          scale={[0.5, 0.5, 0.5]}
-          rotation={[0, Math.PI / 2, Math.PI / 2]}
-        />
         <mesh ref={mesh} visible={false}>
           <boxGeometry args={[1, 1, 1]} />
           <meshStandardMaterial color="orange" />
         </mesh>
+        <Guitar
+          scale={[0.5, 0.5, 0.5]}
+          rotation={[0, Math.PI / 2, Math.PI / 2]}
+        />
       </TransformControls>
       <OrbitControls ref={orbit} />
     </>
